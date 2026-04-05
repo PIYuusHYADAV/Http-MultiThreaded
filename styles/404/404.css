@@ -1,0 +1,60 @@
+/* about.css (or 404.css) */
+
+/* 1. Reset and Center */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background-color: #fcfcfc;
+  color: #333;
+
+  /* Centers the 404 message in the middle of the screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+/* 2. Error Message Styling */
+h1 {
+  font-size: 8rem;
+  font-weight: 900;
+  color: #e74c3c; /* A soft red for the error */
+  margin-bottom: 0;
+  letter-spacing: -5px;
+}
+
+/* 3. Subtext (optional - if you add a paragraph later) */
+p {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  margin-top: -10px;
+}
+
+/* 4. Subtle Animation to make it feel less "broken" */
+h1 {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* 5. Mobile Adjustments */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 5rem;
+  }
+}

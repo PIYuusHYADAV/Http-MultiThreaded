@@ -11,6 +11,17 @@ public class Handler
     }
     public String resolve(String path)
     {
-        return hm.getOrDefault(path, "static/404.html");
+        if(path.endsWith(".css"))
+        {
+            return path.substring(1);
+        }
+        else if(path.endsWith(".js"))
+        {
+            return path.substring(1);
+        }
+        else 
+        {
+            return hm.getOrDefault(path, "static/404.html");
+        }
     }       
 }
