@@ -71,6 +71,7 @@ public class httpServer
             router.addRoute("/", "static/index.html");
             router.addRoute("/about", "static/about.html");
             router.addRoute("/form", "static/form.html");
+            router.addRoute("/about/:id", "static/index.html");
         });
     }
     private static String readPostBody(BufferedReader buffer,Request req) throws Exception
@@ -222,15 +223,7 @@ public class httpServer
         
         return hm;
     }
-    private static void extractParams(Request req) throws Exception
-    {
-        if(req.path.length() <=1) return;
-        String routes[] = req.path.split("/");
-        System.out.println(routes[routes.length-1]);
-        req.params.put("id",routes[routes.length-1]);
-      
-        return;
-    }
+   
     private static void parseQueryAndParameter(Request req) throws Exception
     {
         
@@ -277,16 +270,16 @@ public class httpServer
                     return;
                 }
     
-                // if(!authorizationMiddleware(req,client))
-                // {
-                //     return;
-                // }
+                if(!authorizationMiddleware(req,client))
+                {
+                    return;
+                }
                 parseQueryAndParameter(req);
-                extractParams(req);
-                
+                String filePath = router.resolve(req.path,req.params);
+        
                 if(method.equals("GET"))
                 {
-                    String filePath = router.resolve(req.path);
+                  
                    
                     showUI(filePath, client);
 

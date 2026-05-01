@@ -1,15 +1,51 @@
 package RouteHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Handler 
 {
-    private final HashMap<String,String> hm = new HashMap<>();
+    String path;
+    String file;
+    ArrayList<Handler> routes;
+    public Handler()
+    {
+        this.routes = new ArrayList<>();
+    }
+    public Handler(String p,String f)
+    {
+        this.path = p;
+        this.file = f;
+        this.routes = new ArrayList<>();
+    }
+
     public void addRoute(String path,String filePath)
     {
-        hm.put(path,filePath);
+        routes.add(new Handler(path, filePath));
     }
-    public String resolve(String path)
+    private HashMap<String,String> match(String routepath,String actualpath)
+    {
+        String[] routeparts = routepath.split("/");
+        String[] actualparts = actualpath.split("/");
+        if(routeparts.length != actualparts.length) return null;
+        HashMap<String, String> values = new HashMap<>();
+
+        for(int i=0;i<routeparts.length;i++)
+        {
+            String r = routeparts[i];
+            String a = actualparts[i];
+            if(r.startsWith(":"))
+            {
+                String key = r.substring(1);
+                values.put(key, a);
+            }else if(!r.equals(a))
+            {
+                return null;
+            }
+        }
+        return values;
+    }
+    public String resolve(String path,HashMap<String,String>params)
     {
         if(path.endsWith(".css"))
         {
@@ -21,7 +57,16 @@ public class Handler
         }
         else 
         {
-            return hm.getOrDefault(path, "static/404.html");
+            for(Handler route:routes)
+            {
+                HashMap<String,String> paramsvalues = match(route.path,path);
+                if(paramsvalues!= null)
+                {
+                    params.putAll(paramsvalues);
+                    return route.file;
+                }
+            }
+            return "static/404.html";  
         }
     }       
 }
