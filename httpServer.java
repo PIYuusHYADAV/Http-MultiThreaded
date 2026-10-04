@@ -33,6 +33,7 @@ public class httpServer
         }
 
     }
+    sajdhoaisndasoinaakbsbvciusdbdsf
     private static ArrayList<String> data = new ArrayList<>();
     private static HashMap<String,String> extractHeaders(BufferedReader Buffer) throws Exception
     {
